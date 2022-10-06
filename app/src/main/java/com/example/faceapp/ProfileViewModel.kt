@@ -15,11 +15,6 @@ class ProfileViewModel(context: Context) : ViewModel() {
       private val repository = ProfileRepository(dao)
       val allUser = repository.allUser
 
-//    fun getUser() :List<Profile> = runBlocking{
-//        repository.getUser().await()
-//    }
-
-
     fun insert(user: Profile)
     {
         viewModelScope.launch(Dispatchers.IO) {

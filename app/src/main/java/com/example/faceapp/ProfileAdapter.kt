@@ -37,12 +37,6 @@ class ProfileAdapter (private val context: Context, private val listener: delete
         holder.itemname.text = currentUser.name
         holder.itemage.text = currentUser.age
         holder.itempofession.text = currentUser.profession
-
-//        setting bitmap directly
-//        holder.itemsetprofilepicture.setImageBitmap(currentUser.picture)
-//        holder.itemimage.setImageBitmap(currentUser.picture)
-
-//        setting bitmap using Glide
         val pictureUri = currentUser.picture.toUri()
         Glide.with(holder.itemView.context)
             .load(pictureUri)

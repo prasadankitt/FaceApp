@@ -11,6 +11,5 @@ data class Profile(
     @ColumnInfo(name = "Name") val name: String,
     @ColumnInfo(name  = "Age") val age: String,
     @ColumnInfo(name = "Profession") val profession: String,
-//    @ColumnInfo(name = "Picture") val picture: Bitmap?
     @ColumnInfo(name = "Picture") val picture: String
 )

@@ -3,10 +3,9 @@ package com.example.faceapp
 import android.content.Context
 import androidx.room.*
 
-// Annotates class to be a Room Database with a table (entity) of the Word class
-@TypeConverters(Converter::class)
+
 @Database(entities = [Profile::class], version = 1)
-public abstract class ProfileDatabase : RoomDatabase() {
+abstract class ProfileDatabase : RoomDatabase() {
 
     abstract fun profileDao(): ProfileDao
 

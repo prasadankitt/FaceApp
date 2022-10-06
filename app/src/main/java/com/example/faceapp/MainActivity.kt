@@ -92,15 +92,6 @@ class MainActivity : AppCompatActivity() , deleteListener{
             finish()
         }
     }
-
-//    override fun onContentChanged() {
-//        super.onContentChanged()
-//
-//        empty = findViewById(R.id.empty)
-//        recyclerView.
-//
-//    }
-
     override fun onItemClicked(user: Profile) {
         viewModel.delete(user)
         Toast.makeText(this,"Profile Deleted", Toast.LENGTH_LONG).show()
