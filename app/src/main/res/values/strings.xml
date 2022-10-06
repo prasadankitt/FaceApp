@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Faceapp</string>
+    <string name="add">Add</string>
+    <string name="jessica">Jessica</string>
+    <string name="submit">Submit</string>
+    <string name="your_name">Your Name</string>
+    <string name="your_age">Your Age</string>
+    <string name="your_profession">Your Profession</string>
+    <string name="delete">delete All User</string>
+</resources>
