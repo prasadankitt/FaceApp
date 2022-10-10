@@ -34,10 +34,28 @@ class ProfileAdapter (private val context: Context, private val listener: delete
 
     override fun onBindViewHolder(holder: ProfileViewHolder, position: Int) {
         val currentUser = allUser[position]
-        holder.itemname.text = currentUser.name
-        holder.itemage.text = currentUser.age
-        holder.itempofession.text = currentUser.profession
-        val pictureUri = currentUser.picture.toUri()
+
+        val nameEncrypted = currentUser.name
+        val nameIv = currentUser.nameIV
+        val decryptedName = CryptoManager().decrypt(Pair(nameEncrypted,nameIv))
+
+        val ageEncrypted = currentUser.age
+        val ageIv = currentUser.ageIV
+        val decryptedAge = CryptoManager().decrypt(Pair(ageEncrypted,ageIv))
+
+        val professionEncrypted = currentUser.profession
+        val professionIv = currentUser.professionIV
+        val decryptedProfession = CryptoManager().decrypt(Pair(professionEncrypted,professionIv))
+
+        val pictureEncrypted = currentUser.picture
+        val pictureIv = currentUser.pictureIV
+        val decryptedPicture = CryptoManager().decrypt(Pair(pictureEncrypted,pictureIv))
+
+
+        holder.itemname.text = decryptedName.decodeToString()
+        holder.itemage.text = decryptedAge.decodeToString()
+        holder.itempofession.text = decryptedProfession.decodeToString()
+        val pictureUri = decryptedPicture.decodeToString().toUri()
         Glide.with(holder.itemView.context)
             .load(pictureUri)
             .into(holder.itemsetprofilepicture)

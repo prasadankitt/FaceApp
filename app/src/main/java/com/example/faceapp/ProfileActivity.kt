@@ -44,12 +44,18 @@ class ProfileActivity : AppCompatActivity() {
 
         submit.setOnClickListener {
             if(imageUri != null && name.text.isNotEmpty() && age.text.isNotEmpty() && profession.text.isNotEmpty()) {
+
+                val (nameEncrypted,nameIv) = CryptoManager().encrypt(name.text.toString().toByteArray())
+                val (ageEncrypted,ageIv) = CryptoManager().encrypt(age.text.toString().toByteArray())
+                val (professionEncrypted,professionIv) = CryptoManager().encrypt(profession.text.toString().toByteArray())
+                val (imageUriEncrypted,imageUriIv) = CryptoManager().encrypt(imageUri.toString().toByteArray())
+
                 val userObject = Profile(
                     0,
-                    name.text.toString(),
-                    age.text.toString(),
-                    profession.text.toString(),
-                    imageUri.toString()
+                    nameEncrypted,nameIv,
+                    ageEncrypted,ageIv,
+                    professionEncrypted,professionIv,
+                    imageUriEncrypted,imageUriIv
                 )
                 viewModel.insert(userObject)
                 intent = Intent(this,MainActivity::class.java)
@@ -91,7 +97,7 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
-    fun getImageUriFromBitmap(context: Context,bitmap: Bitmap): Uri{
+    private fun getImageUriFromBitmap(context: Context,bitmap: Bitmap): Uri{
         val bytes = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG,100, bytes)
         val path  = MediaStore.Images.Media.insertImage(context.contentResolver,bitmap,"File",null)

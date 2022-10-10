@@ -7,7 +7,6 @@ import kotlinx.coroutines.async
 
 class ProfileRepository(private val profileDao: ProfileDao)
 {
-
         val allUser : LiveData<List<Profile>> = profileDao.getUser()
         //Room will run it off the main thread no need to ensure long running background work is running
         suspend fun insert(user: Profile) {

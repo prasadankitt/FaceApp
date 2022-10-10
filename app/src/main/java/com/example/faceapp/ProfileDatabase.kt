@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.*
 
 
-@Database(entities = [Profile::class], version = 1)
+@Database(entities = [Profile::class], version = 1,exportSchema = false)
 abstract class ProfileDatabase : RoomDatabase() {
 
     abstract fun profileDao(): ProfileDao
