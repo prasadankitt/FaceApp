@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -31,14 +32,15 @@ android {
     }
 }
 
-apply plugin: 'kotlin-kapt'
-
 dependencies {
 
     implementation 'com.github.Drjacky:ImagePicker:2.3.20'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+    
+    // RecyclerView optimizations
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     //Room components
     implementation 'androidx.room:room-runtime:2.4.3'

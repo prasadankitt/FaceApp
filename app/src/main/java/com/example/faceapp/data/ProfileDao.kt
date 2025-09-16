@@ -1,4 +1,4 @@
-package com.example.faceapp
+package com.example.faceapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

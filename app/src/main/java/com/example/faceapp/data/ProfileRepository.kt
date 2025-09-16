@@ -1,9 +1,6 @@
-package com.example.faceapp
+package com.example.faceapp.data
 
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 
 class ProfileRepository(private val profileDao: ProfileDao)
 {

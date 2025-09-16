@@ -1,4 +1,4 @@
-package com.example.faceapp
+package com.example.faceapp.utils
 
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec

@@ -1,21 +1,20 @@
-package com.example.faceapp
+package com.example.faceapp.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.motion.widget.OnSwipe
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.faceapp.R
+import com.example.faceapp.data.Profile
+import com.example.faceapp.utils.EmptyDataObserver
+import com.example.faceapp.viewmodel.ProfileViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-
 
 class MainActivity : AppCompatActivity() , deleteListener{
 
@@ -31,12 +30,18 @@ class MainActivity : AppCompatActivity() , deleteListener{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ProfileViewModel(applicationContext)
+        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
         adapter = ProfileAdapter(this,this)
 
         recyclerView = findViewById(R.id.rV)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+        
+        // Performance optimizations
+        recyclerView.setHasFixedSize(true)
+        recyclerView.setItemViewCacheSize(20)
+        recyclerView.setDrawingCacheEnabled(true)
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH)
 
         //observing our empty data state
         empty = findViewById(R.id.empty_data_parent)
@@ -44,17 +49,15 @@ class MainActivity : AppCompatActivity() , deleteListener{
         adapter.registerAdapterDataObserver(emptyDataObserver)
 
         //updating data in UI as we get any submission in our database
-        viewModel.allUser.observe(this, Observer{ it ->
-            it?.let{adapter.updateList(it) }
-        })
-        //if we don't have any profile added
-        viewModel.allUser.observe(this, Observer{ it ->
-            it?.let{countIs = adapter.getItemCount()
-                if(countIs == 0)
-                {
+        viewModel.allUser.observe(this) { profiles ->
+            profiles?.let { 
+                adapter.updateList(it)
+                countIs = adapter.itemCount
+                if(countIs == 0) {
                     Toast.makeText(this,"No Items",Toast.LENGTH_SHORT).show()
-                }}
-        })
+                }
+            }
+        }
 
         //For swipe Delete
         ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
@@ -72,9 +75,7 @@ class MainActivity : AppCompatActivity() , deleteListener{
                 val user = adapter.getUserPosition(position)
                 viewModel.delete(user)
                 Snackbar.make(recyclerView,"Profile Deleted"+ user.name,2000).setAction("UNDO"){
-                    adapter.allUser.add(position,user)
                     viewModel.insert(user)
-                    adapter.notifyItemInserted(position)
                 }.show()
             }
         }).attachToRecyclerView(recyclerView)
@@ -87,14 +88,13 @@ class MainActivity : AppCompatActivity() , deleteListener{
 
         addButton = findViewById(R.id.addButton)
         addButton.setOnClickListener {
-            intent = Intent(this,ProfileActivity::class.java)
+            val intent = Intent(this,ProfileActivity::class.java)
             startActivity(intent)
-            finish()
+            // Don't finish() here - let the user return to this activity
         }
     }
     override fun onItemClicked(user: Profile) {
         viewModel.delete(user)
         Toast.makeText(this,"Profile Deleted", Toast.LENGTH_LONG).show()
     }
-
 }

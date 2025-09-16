@@ -1,8 +1,7 @@
-package com.example.faceapp
+package com.example.faceapp.data
 
 import android.content.Context
 import androidx.room.*
-
 
 @Database(entities = [Profile::class], version = 1,exportSchema = false)
 abstract class ProfileDatabase : RoomDatabase() {
